@@ -1,27 +1,23 @@
-{
+﻿{
   "name": "Offline Notes Lab",
   "short_name": "Notes Lab",
-  "id": "/offline-notes-lab/",
+  "description": "Keep learning when the network leaves.",
   "start_url": "/offline-notes-lab/",
-  "scope": "/offline-notes-lab/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#fbfaf7",
+  "background_color": "#1d1d1b",
   "theme_color": "#1d1d1b",
-  "description": "A beginner-friendly offline-first notes PWA.",
-  "categories": ["education", "productivity"],
   "icons": [
     {
       "src": "/offline-notes-lab/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "/offline-notes-lab/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }
