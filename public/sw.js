@@ -1,5 +1,8 @@
 const CACHE_NAME = "offline-notes-lab-v2";
-const APP_SHELL = ["/", "/manifest.webmanifest"];
+const APP_SHELL = [
+  "/offline-notes-lab/",
+  "/offline-notes-lab/manifest.webmanifest"
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -38,7 +41,7 @@ self.addEventListener("fetch", (event) => {
               });
               return response;
             })
-            .catch(() => caches.match("/"))
+            .catch(() => caches.match("/offline-notes-lab/"))
       )
   );
 });
