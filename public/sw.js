@@ -1,7 +1,9 @@
-const CACHE_NAME = "offline-notes-lab-v2";
+const CACHE_NAME = "offline-notes-lab-v3";
 const APP_SHELL = [
   "/offline-notes-lab/",
-  "/offline-notes-lab/manifest.webmanifest"
+  "/offline-notes-lab/manifest.webmanifest",
+  "/offline-notes-lab/icon-192.png",
+  "/offline-notes-lab/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -41,7 +43,12 @@ self.addEventListener("fetch", (event) => {
               });
               return response;
             })
-            .catch(() => caches.match("/offline-notes-lab/"))
+            .catch(() => {
+              // Fallback for navigation requests
+              if (event.request.mode === "navigate") {
+                return caches.match("/offline-notes-lab/");
+              }
+            })
       )
   );
 });

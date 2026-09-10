@@ -33,6 +33,10 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
+  // Install prompt states
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+
   const progress = useMemo(
     () => Math.round((done.length / steps.length) * 100),
     [done]
@@ -52,6 +56,33 @@ export default function Home() {
       window.removeEventListener("offline", off);
     };
   }, []);
+
+  // Handle install prompt
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handler);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === "accepted") {
+      setShowInstallButton(false);
+    }
+    setDeferredPrompt(null);
+  };
 
   function addNote() {
     if (!title.trim() || !body.trim()) return;
@@ -166,6 +197,33 @@ export default function Home() {
           </form>
         </section>
       </main>
+
+      {/* Install PWA Button */}
+      {showInstallButton && (
+        <button
+          onClick={handleInstallClick}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            padding: "14px 28px",
+            backgroundColor: "#1d1d1b",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "16px",
+            fontWeight: "bold",
+            zIndex: 1000,
+            boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          📱 Install App
+        </button>
+      )}
     </div>
   );
 }
